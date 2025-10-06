@@ -1,5 +1,5 @@
 public class Image {
-    private final String imageName;
+    private String imageName;
 
     public void print() {
     }
