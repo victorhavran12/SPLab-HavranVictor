@@ -1,5 +1,5 @@
 public class Paragraph {
-    private final String text;
+    private String text;
     
     public void print() {
     }

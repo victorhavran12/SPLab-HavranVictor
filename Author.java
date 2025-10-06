@@ -1,5 +1,5 @@
 public class Author {
-    private final String name;
+    private String name;
 
     public void print() {
     }
