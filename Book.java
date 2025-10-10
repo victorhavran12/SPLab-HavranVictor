@@ -1,13 +1,23 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Book {
-    String title;
+public class Book extends Section {
+    private final List<Author> authors = new ArrayList<>();
 
-    Author author;                      
-    TableOfContents tableOfContents;    
-    List<Chapter> chapters = new ArrayList<>(); 
+    public Book() { }
 
+    public Book(String title) {
+        super(title);
+    }
+
+    public void addAuthor(Author a) {
+        if (a != null) {
+            authors.add(a);
+        }
+    }
+
+    @Override
     public void print() {
+        super.print();
     }
 }
