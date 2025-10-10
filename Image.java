@@ -8,20 +8,20 @@ public class Image implements Element {
     }
 
     @Override
-    public void print() { }
+    public void print() {
+        System.out.println("Image with name:" + url);
+    }
 
     @Override
     public void add(Element e) {
-        throw new UnsupportedOperationException("Leaf cannot add children");
     }
 
     @Override
     public void remove(Element e) {
-        throw new UnsupportedOperationException("Leaf cannot remove children");
     }
 
     @Override
     public Element get(int index) {
-        throw new UnsupportedOperationException("Leaf has no children");
+        return null;
     }
 }

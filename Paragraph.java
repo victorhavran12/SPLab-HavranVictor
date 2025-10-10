@@ -9,21 +9,19 @@ public class Paragraph implements Element {
 
     @Override
     public void print() {
-        // leaf print
+        System.out.println("Paragraph: " + text);
     }
 
     @Override
     public void add(Element e) {
-        throw new UnsupportedOperationException("Leaf cannot add children");
     }
 
     @Override
     public void remove(Element e) {
-        throw new UnsupportedOperationException("Leaf cannot remove children");
     }
 
     @Override
     public Element get(int index) {
-        throw new UnsupportedOperationException("Leaf has no children");
+        return null;
     }
 }

@@ -1,27 +1,29 @@
 public class TableOfContents implements Element {
-    private String name;
+    private String title;
 
-    public TableOfContents() { }
+    public TableOfContents() {
+        this.title = "Table of Contents";
+    }
 
-    public TableOfContents(String name) {
-        this.name = name;
+    public TableOfContents(String title) {
+        this.title = title;
     }
 
     @Override
-    public void print() { }
+    public void print() {
+        System.out.println(title);
+    }
 
     @Override
     public void add(Element e) {
-        throw new UnsupportedOperationException("Leaf cannot add children");
     }
 
     @Override
     public void remove(Element e) {
-        throw new UnsupportedOperationException("Leaf cannot remove children");
     }
 
     @Override
     public Element get(int index) {
-        throw new UnsupportedOperationException("Leaf has no children");
+        return null;
     }
 }

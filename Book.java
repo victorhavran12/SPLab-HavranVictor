@@ -1,13 +1,16 @@
+// Book.java
 import java.util.ArrayList;
 import java.util.List;
 
 public class Book extends Section {
     private final List<Author> authors = new ArrayList<>();
 
-    public Book() { }
+    public Book() {
+        super();
+    }
 
     public Book(String title) {
-        super(title);
+        super(title); 
     }
 
     public void addAuthor(Author a) {
@@ -18,6 +21,13 @@ public class Book extends Section {
 
     @Override
     public void print() {
-        super.print();
+        System.out.println("Book: " + getTitle());
+        System.out.println();
+        System.out.println("Authors:");
+        for (Author a : authors) {
+            a.print();
+        }
+        System.out.println();
+        printChildren();
     }
 }

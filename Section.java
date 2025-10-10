@@ -11,8 +11,22 @@ public class Section implements Element {
         this.title = title;
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void addContent(Element e) {
+        add(e);
+    }
+
     @Override
     public void print() {
+        if (title != null && !title.isEmpty()) {
+            System.out.println(title);
+        }
+        printChildren();
+    }
+    protected void printChildren() {
         for (Element e : children) {
             e.print();
         }

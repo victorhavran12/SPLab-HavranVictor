@@ -9,5 +9,7 @@ public class Author {
         this.surname = surname;
     }
 
-    public void print() { }
+    public void print() {
+        System.out.println("Author: " + name + " " + surname);
+    }
 }
