@@ -3,9 +3,7 @@ import java.util.List;
 
 public class SubChapter {
     private String name;
-    private List<Paragraph> paragraphs = new ArrayList<>();
-    private List<Image> images = new ArrayList<>();
-    private List<Table> tables = new ArrayList<>();
+    List<Element> elements = new ArrayList<>();
 
     public void print() {
     }
