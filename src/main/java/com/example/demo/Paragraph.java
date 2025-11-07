@@ -1,18 +1,35 @@
 package com.example.demo;
 
-public class Paragraph implements Element {
+import jakarta.persistence.Entity;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Column;
+import jakarta.persistence.Transient;
+
+@Entity
+@DiscriminatorValue("PARAGRAPH")
+public class Paragraph extends Element {
+
+    @Lob
+    @Column(nullable = false)
     private String text;
-    private AlignStrategy textAlignment; 
+
+    @Transient
+    private AlignStrategy textAlignment;
 
     public Paragraph() { }
 
     public Paragraph(String text) {
+        this(0, text);
+    }
+
+    public Paragraph(int orderIndex, String text) {
+        super(orderIndex);
         this.text = text;
     }
 
-    public String getText() {
-        return text;
-    }
+    public String getText() { return text; }
+    public void setText(String text) { this.text = text; }
 
     public void setAlignStrategy(AlignStrategy strategy) {
         this.textAlignment = strategy;
@@ -26,13 +43,4 @@ public class Paragraph implements Element {
             System.out.println("Paragraph: " + text);
         }
     }
-
-    @Override
-    public void add(Element e) { }
-
-    @Override
-    public void remove(Element e) { }
-
-    @Override
-    public Element get(int index) { return null; }
 }

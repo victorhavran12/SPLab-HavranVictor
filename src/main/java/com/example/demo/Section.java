@@ -1,11 +1,28 @@
 package com.example.demo;
 
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Section implements Element {
+@Entity
+public class Section {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
     private String title;
-    private final List<Element> children = new ArrayList<>();
+
+    private int position;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id")
+    private Book book;
+
+    @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("orderIndex ASC, id ASC")
+    private List<Element> elements = new ArrayList<>();
 
     public Section() { }
 
@@ -13,41 +30,60 @@ public class Section implements Element {
         this.title = title;
     }
 
+    public Section(String title, int position) {
+        this.title = title;
+        this.position = position;
+    }
+
+    public void addElement(Element e) {
+        if (e == null) return;
+        e.setSection(this);
+        elements.add(e);
+    }
+
+    public void removeElement(Element e) {
+        if (e == null) return;
+        e.setSection(null);
+        elements.remove(e);
+    }
+
+    // --- Getters / Setters ---
+    public Long getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
 
-    public void addContent(Element e) {
-        add(e);
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    @Override
-    public void print() {
-        if (title != null && !title.isEmpty()) {
-            System.out.println(title);
+    public int getPosition() {
+        return position;
+    }
+
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
+    public Book getBook() {
+        return book;
+    }
+
+    public void setBook(Book book) {
+        this.book = book;
+    }
+
+    public List<Element> getElements() {
+        return elements;
+    }
+
+    public void setElements(List<Element> elements) {
+        this.elements.clear();
+        if (elements != null) {
+            for (Element e : elements) addElement(e);
         }
-        printChildren();
-    }
-    protected void printChildren() {
-        for (Element e : children) {
-            e.print();
-        }
-    }
-
-    @Override
-    public void add(Element e) {
-        if (e != null) {
-            children.add(e);
-        }
-    }
-
-    @Override
-    public void remove(Element e) {
-        children.remove(e);
-    }
-
-    @Override
-    public Element get(int index) {
-        return children.get(index);
     }
 }

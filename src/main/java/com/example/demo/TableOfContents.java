@@ -1,13 +1,26 @@
 package com.example.demo;
 
-public class TableOfContents implements Element {
+import jakarta.persistence.Entity;
+import jakarta.persistence.DiscriminatorValue;
+import jakarta.persistence.Column;
+
+@Entity
+@DiscriminatorValue("TOC")
+public class TableOfContents extends Element {
+
+    @Column(nullable = false)
     private String title;
 
     public TableOfContents() {
-        this.title = "Table of Contents";
+        this(0, "Table of Contents");
     }
 
     public TableOfContents(String title) {
+        this(0, title);
+    }
+
+    public TableOfContents(int orderIndex, String title) {
+        super(orderIndex);
         this.title = title;
     }
 
@@ -16,16 +29,6 @@ public class TableOfContents implements Element {
         System.out.println(title);
     }
 
-    @Override
-    public void add(Element e) {
-    }
-
-    @Override
-    public void remove(Element e) {
-    }
-
-    @Override
-    public Element get(int index) {
-        return null;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 }

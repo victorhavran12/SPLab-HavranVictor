@@ -1,53 +1,56 @@
 package com.example.demo;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+@SpringBootApplication
 public class Main {
+
     public static void main(String[] args) {
-        Book noapteBuna = new Book("Noapte buna, copii!");
-        Author rpGheo = new Author("Radu Pavel", "Gheo");
-        noapteBuna.addAuthor(rpGheo);
+        SpringApplication.run(Main.class, args);
+    }
 
-        Section cap1 = new Section("Capitolul 1");
-        Section cap11 = new Section("Capitolul 1.1");
-        Section cap111 = new Section("Capitolul 1.1.1");
-        Section cap1111 = new Section("Subchapter: 1.1.1.1");
+    @Bean
+    CommandLineRunner seedData(
+            BookRepository bookRepository,
+            AuthorRepository authorRepository
+    ) {
+        return args -> {
+            Book noapteBuna = new Book("Noapte buna, copii!", "ISBN-00001");
+            Author rpGheo = new Author("Radu Pavel", "Gheo");
+            authorRepository.save(rpGheo);
+            noapteBuna.addAuthor(rpGheo);
 
-        noapteBuna.addContent(new Paragraph("Multumesc celor care ..."));
-        noapteBuna.addContent(cap1);
+            Section cap1   = new Section("Capitolul 1", 1);
+            Section cap11  = new Section("Capitolul 1.1", 2);
+            Section cap111 = new Section("Capitolul 1.1.1", 3);
+            Section cap1111 = new Section("Subchapter: 1.1.1.1", 4);
 
-        cap1.add(new Paragraph("Moto capitol"));
-        cap1.add(cap11);
 
-        cap11.add(new Paragraph("Text from subchapter 1.1"));
-        cap11.add(cap111);
+            Section intro = new Section("Intro", 0);
+            intro.addElement(new Paragraph(0, "Multumesc celor care ..."));
 
-        cap111.add(new Paragraph("Text from subchapter 1.1.1"));
-        cap111.add(cap1111);
+            cap1.addElement(new Paragraph(0, "Moto capitol"));
 
-        cap1111.add(new Image("Image subchapter 1.1.1.1"));
+            cap11.addElement(new Paragraph(0, "Text from subchapter 1.1"));
+            cap111.addElement(new Paragraph(0, "Text from subchapter 1.1.1"));
+            cap1111.addElement(new Image(0, "Image subchapter 1.1.1.1"));
 
-        noapteBuna.print();
+            noapteBuna.addSection(intro);
+            noapteBuna.addSection(cap1);
+            noapteBuna.addSection(cap11);
+            noapteBuna.addSection(cap111);
+            noapteBuna.addSection(cap1111);
 
-        Section demo = new Section("Capitolul 1");
-        Paragraph p1 = new Paragraph("Paragraph 1");
-        demo.add(p1);
-        Paragraph p2 = new Paragraph("Paragraph 2");
-        demo.add(p2);
-        Paragraph p3 = new Paragraph("Paragraph 3");
-        demo.add(p3);
-        Paragraph p4 = new Paragraph("Paragraph 4");
-        demo.add(p4);
+            bookRepository.save(noapteBuna);
 
-        System.out.println("Printing without Alignment");
-        System.out.println();
-        demo.print();
-
-        p1.setAlignStrategy(new AlignCenter());
-        p2.setAlignStrategy(new AlignRight());
-        p3.setAlignStrategy(new AlignLeft());
-
-        System.out.println();
-        System.out.println("Printing with Alignment");
-        System.out.println();
-        demo.print();
+            System.out.println("Saved book: " + noapteBuna.getTitle() + " (id=" + noapteBuna.getId() + ")");
+            System.out.println("Authors: " + noapteBuna.getAuthors().size());
+            System.out.println("Sections: " + noapteBuna.getSections().size());
+            System.out.println("Open H2 console at http://localhost:8080/h2-console");
+            System.out.println("JDBC URL: jdbc:h2:file:~/h2db/booksdb  |  user: sa  |  password: (empty)");
+        };
     }
 }
