@@ -2,10 +2,6 @@ package com.example.demo;
 
 import jakarta.persistence.*;
 
-/**
- * Base JPA entity for all content elements inside a Section.
- * Uses SINGLE_TABLE inheritance for simplicity (you can switch to JOINED later).
- */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")

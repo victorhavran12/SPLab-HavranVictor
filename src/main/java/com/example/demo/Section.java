@@ -46,8 +46,7 @@ public class Section {
         e.setSection(null);
         elements.remove(e);
     }
-
-    // --- Getters / Setters ---
+    
     public Long getId() {
         return id;
     }

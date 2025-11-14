@@ -9,7 +9,6 @@ import jakarta.persistence.Lob;
 @DiscriminatorValue("TABLE_ELEMENT")
 public class Table extends Element {
 
-    // keep your original semantic but persist it
     @Lob
     @Column(nullable = false)
     private String something;
@@ -30,7 +29,6 @@ public class Table extends Element {
         System.out.println("Table: " + something);
     }
 
-    // ----- Getters / Setters -----
     public String getSomething() { return something; }
     public void setSomething(String something) { this.something = something; }
 }
