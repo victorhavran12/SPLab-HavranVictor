@@ -6,21 +6,37 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 @Component
-public class AllBooksSubject {
+public class AllBooksSubject implements Subject {
+    private final List<Observer> observers = new CopyOnWriteArrayList<>();
 
-    private final List<SseObserver> observers = new CopyOnWriteArrayList<>();
-
-    public void attach(SseObserver observer) {
-        observers.add(observer);
+    @Override
+    public void registerObserver(Observer observer) {
+        if (observer != null) {
+            observers.add(observer);
+        }
     }
 
-    public void detach(SseObserver observer) {
+    @Override
+    public void unregisterObserver(Observer observer) {
         observers.remove(observer);
     }
 
-    public void add(Book book) {
-        for (SseObserver observer : observers) {
-            observer.onNewBook(book);
+    @Override
+    public void notifyObservers(Book book) {
+        for (Observer observer : observers) {
+            observer.update(book);
         }
+    }
+
+    public void attach(SseObserver observer) {
+        registerObserver(observer);
+    }
+
+    public void detach(SseObserver observer) {
+        unregisterObserver(observer);
+    }
+
+    public void add(Book book) {
+        notifyObservers(book);
     }
 }

@@ -25,7 +25,6 @@ public class BooksController {
         CommandContext context = new CommandContext(booksRepository);
         Book savedBook = createBookCommand.execute(context, newBookRequest);
 
-        // notify all SSE subscribers about the new book
         allBooksSubject.add(savedBook);
 
         return "Book saved [" + savedBook.getId() + "] " + savedBook.getTitle();
