@@ -8,11 +8,29 @@
 <script>
     function sendRequest() {
         if (typeof(EventSource) !== "undefined") {
+            document.getElementById("sseDiv").innerHTML = "";
+            let booksReceived = false;
+            
             const source = new EventSource(`http://localhost:8080/books-sse`);
             source.onmessage = function(event) {
                 const data = JSON.parse(event.data);
+                booksReceived = true;
                 document.getElementById("sseDiv").innerHTML += data.id + "<br>";
             };
+            
+            source.onerror = function(event) {
+                if (!booksReceived) {
+                    document.getElementById("sseDiv").innerHTML = "No books are present in the database.";
+                }
+                source.close();
+            };
+            
+            setTimeout(function() {
+                if (!booksReceived) {
+                    document.getElementById("sseDiv").innerHTML = "No books are present in the database.";
+                    source.close();
+                }
+            }, 1000);
         } else {
             document.getElementById("sseDiv").innerHTML =
                 "Your browser does not support server-sent events.";
